@@ -6,6 +6,7 @@ public class FoquitoScript : MonoBehaviour
 {
     [SerializeField] GameObject[] colors;
     public int currentLightIndex =-1;
+    public int vueltasLuces = 15;
 
     void Start()
     {
@@ -20,13 +21,20 @@ public class FoquitoScript : MonoBehaviour
 
     public void ActivateNextLight()
     {
-        currentLightIndex++;
-        if (currentLightIndex >= colors.Length)
+        vueltasLuces--;
+        if (vueltasLuces >= 0)
         {
-            currentLightIndex = 0;
+            currentLightIndex++;
+            if (currentLightIndex >= colors.Length)
+            {
+                currentLightIndex = 0;
+            }
+            DeactivateAllLights();
+            colors[currentLightIndex].SetActive(true);
+        } else
+        {
+            Destroy(this.gameObject);
         }
-        DeactivateAllLights();
-        colors[currentLightIndex].SetActive(true);
     }
 
     public void ActivatePreviousLight()
@@ -52,4 +60,5 @@ public class FoquitoScript : MonoBehaviour
     {
         InvokeRepeating(nameof(ActivateNextLight),0,t);
     }
+   
 }
